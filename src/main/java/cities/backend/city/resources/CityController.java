@@ -1,7 +1,9 @@
 package cities.backend.city.resources;
 
+import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import cities.backend.city.entities.City;
 import cities.backend.city.services.CityService;
 
@@ -19,29 +23,41 @@ public class CityController {
     private CityService service;
 
     @GetMapping("cities")
-    public List<City> getCities(){
-        return service.getCities(); //chama o serviço e devolve as cidades
+    public ResponseEntity <List<City>> getCities(){
+        return ResponseEntity.ok(service.getCities()); //chama o serviço e devolve as cidades. //chama o serviço e devolve as cidades
     }
 
     @GetMapping("cities/{id}")
-    public City getCityById(@PathVariable int id) {
-        return service.getCityById(id); 
+    public ResponseEntity <City> getCityById(@PathVariable int id) {
+        return ResponseEntity.ok(service.getCityById(id));   
     }
 
     @PostMapping("cities")
-    public City save (@RequestBody City city){
-        return service.save(city);
+     public ResponseEntity <City> save (@RequestBody City city){
+        City newCity = service.save(city);
+        
+        URI location = ServletUriComponentsBuilder
+                            .fromCurrentRequest()
+                            .path("/{id}")
+                            .buildAndExpand(newCity.getId())
+                            .toUri();
+
+        return ResponseEntity.created(location).body(newCity);
     }
 
     @DeleteMapping("cities/{id}")
-    public void deleteById(@PathVariable int id){
+    public ResponseEntity<Void> deleteById(@PathVariable int id){
         service.deleteById(id);
+
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("cities/{id}")
-    public void update(@PathVariable int id, 
+     public  ResponseEntity<Void> update(@PathVariable int id,
                        @RequestBody City city){
         service.update(id, city);
+
+        return ResponseEntity.ok().build();
     }
     
 }
