@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cities.backend.city.dtos.CityRequest;
+import cities.backend.city.dtos.CityResponse;
 import cities.backend.city.entities.City;
 import cities.backend.city.mappers.CityMapper;
 import cities.backend.city.repositories.CityRepository;
@@ -16,18 +17,23 @@ public class CityService {
     @Autowired
     private CityRepository repository;
 
-    public List <City> getCities(){
-        return repository.findAll();
+     public List <CityResponse> getCities(){
+        return repository.findAll()
+                         .stream()
+                         .map(city -> CityMapper.toDto(city))
+                         .toList();
     }
 
-    public City getCityById(int id){
-        return repository.findById(id).orElseThrow(
+    public CityResponse getCityById(int id ){
+        City city = repository.findById(id).orElseThrow(
             () -> new EntityNotFoundException("Cidade não Cadastrada")
         );
+            return CityMapper.toDto(city); 
     }
 
-    public City save(CityRequest dtoRequestCity){
-        return repository.save(CityMapper.toEntity(dtoRequestCity));
+    public CityResponse save(CityRequest dtoRequestCity){
+        City city = repository.save(CityMapper.toEntity(dtoRequestCity));
+        return CityMapper.toDto(city);
     }
 
     public void deleteById(int id){

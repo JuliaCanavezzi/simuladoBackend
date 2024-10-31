@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import cities.backend.city.dtos.CityRequest;
-import cities.backend.city.entities.City;
+import cities.backend.city.dtos.CityResponse;
 import cities.backend.city.services.CityService;
 
 @RestController
@@ -24,23 +23,22 @@ public class CityController {
     private CityService service;
 
     @GetMapping("cities")
-    public ResponseEntity <List<City>> getCities(){
+    public ResponseEntity <List<CityResponse>> getCities(){
         return ResponseEntity.ok(service.getCities()); //chama o serviço e devolve as cidades. //chama o serviço e devolve as cidades
     }
 
     @GetMapping("cities/{id}")
-    public ResponseEntity <City> getCityById(@PathVariable int id) {
+    public ResponseEntity <CityResponse> getCityById(@PathVariable int id) {
         return ResponseEntity.ok(service.getCityById(id));   
     }
 
     @PostMapping("cities")
-      public ResponseEntity <City> save (@RequestBody CityRequest city){
-        City newCity = service.save(city);
-        
+    public ResponseEntity <CityResponse> save (@RequestBody CityRequest city){
+        CityResponse newCity = service.save(city);
         URI location = ServletUriComponentsBuilder
                             .fromCurrentRequest()
                             .path("/{id}")
-                            .buildAndExpand(newCity.getId())
+                            .buildAndExpand(newCity.id())
                             .toUri();
 
         return ResponseEntity.created(location).body(newCity);
