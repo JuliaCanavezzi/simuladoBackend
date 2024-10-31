@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import cities.backend.city.dtos.CityRequest;
 import cities.backend.city.entities.City;
 import cities.backend.city.services.CityService;
 
@@ -33,7 +34,7 @@ public class CityController {
     }
 
     @PostMapping("cities")
-     public ResponseEntity <City> save (@RequestBody City city){
+      public ResponseEntity <City> save (@RequestBody CityRequest city){
         City newCity = service.save(city);
         
         URI location = ServletUriComponentsBuilder
@@ -53,8 +54,8 @@ public class CityController {
     }
 
     @PutMapping("cities/{id}")
-     public  ResponseEntity<Void> update(@PathVariable int id,
-                       @RequestBody City city){
+    public ResponseEntity<Void> update(@PathVariable int id,
+                                       @RequestBody CityRequest city){
         service.update(id, city);
 
         return ResponseEntity.ok().build();

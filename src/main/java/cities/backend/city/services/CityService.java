@@ -3,7 +3,10 @@ package cities.backend.city.services;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import cities.backend.city.dtos.CityRequest;
 import cities.backend.city.entities.City;
+import cities.backend.city.mappers.CityMapper;
 import cities.backend.city.repositories.CityRepository;
 import jakarta.persistence.EntityNotFoundException;
 
@@ -23,8 +26,8 @@ public class CityService {
         );
     }
 
-    public City save (City city){
-        return repository.save(city);
+    public City save(CityRequest dtoRequestCity){
+        return repository.save(CityMapper.toEntity(dtoRequestCity));
     }
 
     public void deleteById(int id){
@@ -36,13 +39,13 @@ public class CityService {
         }
     }
 
-    public void update(int id, City city){
+    public void update(int id, CityRequest dtoRequestCity){
         City aux = repository.getReferenceById(id);
-        aux.setName(city.getName());
-        aux.setStates(city.getStates());
-        aux.setCountry(city.getCountry());
-        aux.setPopulation(city.getPopulation());
-        aux.setZipCode(city.getZipCode());
+        aux.setName(dtoRequestCity.name());
+        aux.setStates(dtoRequestCity.states());
+        aux.setCountry(dtoRequestCity.country());
+        aux.setPopulation(dtoRequestCity.population());
+        aux.setZipCode(dtoRequestCity.zipCode());
         repository.save(aux);
     }
 }
