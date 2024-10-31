@@ -15,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import cities.backend.city.dtos.CityRequest;
 import cities.backend.city.dtos.CityResponse;
 import cities.backend.city.services.CityService;
+import jakarta.validation.Valid;
 
 @RestController
 public class CityController {
@@ -33,7 +34,7 @@ public class CityController {
     }
 
     @PostMapping("cities")
-    public ResponseEntity <CityResponse> save (@RequestBody CityRequest city){
+    public ResponseEntity <CityResponse> save (@Valid @RequestBody CityRequest city){
         CityResponse newCity = service.save(city);
         URI location = ServletUriComponentsBuilder
                             .fromCurrentRequest()
