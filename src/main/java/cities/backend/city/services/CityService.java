@@ -35,4 +35,14 @@ public class CityService {
             throw new EntityNotFoundException("Cidade não Cadastrada");
         }
     }
+
+    public void update(int id, City city){
+        City aux = repository.getReferenceById(id);
+        aux.setName(city.getName());
+        aux.setStates(city.getStates());
+        aux.setCountry(city.getCountry());
+        aux.setPopulation(city.getPopulation());
+        aux.setZipCode(city.getZipCode());
+        repository.save(aux);
+    }
 }
