@@ -1,0 +1,3 @@
+INSERT INTO city (NAME, STATES, COUNTRY, POPULATION, ZIP_CODE) VALUES ('Itu', 'Sao Paulo', 'Brasil', ' 168.240 habitantes', '1329-231');
+INSERT INTO city (NAME, STATES, COUNTRY, POPULATION, ZIP_CODE) VALUES ('Sorocaba', 'Sao Paulo', 'Brasil', ' 723.682 habitantes', '1765-453');
+INSERT INTO city (NAME, STATES, COUNTRY, POPULATION, ZIP_CODE) VALUES ('Salto', 'Sao Paulo', 'Brasil', '140.125 habitantes. ', '1233-644');
