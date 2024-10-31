@@ -26,4 +26,13 @@ public class CityService {
     public City save (City city){
         return repository.save(city);
     }
+
+    public void deleteById(int id){
+        if(repository.existsById(id)){
+            repository.deleteById(id);
+        }
+        else{
+            throw new EntityNotFoundException("Cidade não Cadastrada");
+        }
+    }
 }
