@@ -22,4 +22,8 @@ public class CityService {
             () -> new EntityNotFoundException("Cidade não Cadastrada")
         );
     }
+
+    public City save (City city){
+        return repository.save(city);
+    }
 }
